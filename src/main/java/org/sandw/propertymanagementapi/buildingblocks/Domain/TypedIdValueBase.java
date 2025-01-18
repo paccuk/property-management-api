@@ -9,7 +9,7 @@ import java.util.UUID;
 public class TypedIdValueBase { // TODO: Refactor to use lombok's approach
     private final UUID value;
 
-    protected TypedIdValueBase(UUID value) {
+    public TypedIdValueBase(UUID value) {
         if (value == null || value.equals(new UUID(0, 0))) {
             throw new IllegalArgumentException("Id value cannot be empty!");
         }

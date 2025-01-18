@@ -1,6 +1,7 @@
 package org.sandw.propertymanagementapi.modules.UserAccess.Application.UseCases.Users;
 
-import org.sandw.propertymanagementapi.modules.UserAccess.Domain.Users.User;
+import org.sandw.propertymanagementapi.modules.UserAccess.API.DTOs.User.UserResponse;
+import org.sandw.propertymanagementapi.modules.UserAccess.API.Mappers.Users.UserMapper;
 import org.sandw.propertymanagementapi.modules.UserAccess.Domain.Users.UserRepository;
 
 public class GetUserByEmailUseCase {
@@ -10,7 +11,8 @@ public class GetUserByEmailUseCase {
         this.userRepository = userRepository;
     }
 
-    public User execute(String email) {
-        return userRepository.findByEmail(email).orElseThrow();
+    public UserResponse execute(String email) {
+        var user = userRepository.findByEmail(email).orElseThrow(); // TODO: Add custom exception.
+        return UserMapper.toResponseDto(user);
     }
 }

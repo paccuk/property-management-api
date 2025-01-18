@@ -1,31 +1,28 @@
 package org.sandw.propertymanagementapi.modules.UserAccess.Infrastructure.Configurations.Auth;
 
 
-import org.sandw.propertymanagementapi.modules.UserAccess.Domain.Users.UserRepository;
+import org.sandw.propertymanagementapi.modules.UserAccess.Application.Services.Auth.AuthUserService;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.AuthenticationProvider;
 import org.springframework.security.authentication.dao.DaoAuthenticationProvider;
 import org.springframework.security.config.annotation.authentication.configuration.AuthenticationConfiguration;
-import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.core.userdetails.UserDetailsService;
-import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 
-@Configuration("authenticationConfig")
+@Configuration("authenticationConfiguration")
 public class AuthenticationConfig {
 
-    private final UserRepository userRepository;
+    private final AuthUserService authUserService;
 
-    public AuthenticationConfig(UserRepository userRepository) {
-        this.userRepository = userRepository;
+    public AuthenticationConfig(AuthUserService authUserService) {
+        this.authUserService = authUserService;
     }
 
     @Bean
     UserDetailsService userDetailsService() {
-        return username -> userRepository.findByEmail(username)
-                .orElseThrow(() -> new UsernameNotFoundException("User not found"));
+        return authUserService::getByEmail;
     }
 
     @Bean

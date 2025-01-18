@@ -16,30 +16,28 @@ import org.springframework.web.cors.UrlBasedCorsConfigurationSource;
 
 import java.util.List;
 
-@Configuration
+@Configuration("securityConfiguration")
 @EnableWebSecurity
 public class SecurityConfig {
-    private final AuthenticationProvider authenticationProvider;
     private final JwtAuthenticationFilter jwtAuthenticationFilter;
+    private final AuthenticationProvider authenticationProvider;
 
     public SecurityConfig(
-            JwtAuthenticationFilter jwtAuthenticationFilter,
-            AuthenticationProvider authenticationProvider
+            JwtAuthenticationFilter jwtAuthenticationFilter, AuthenticationProvider authenticationProvider
     ) {
-        this.authenticationProvider = authenticationProvider;
         this.jwtAuthenticationFilter = jwtAuthenticationFilter;
+        this.authenticationProvider = authenticationProvider;
     }
 
     @Bean
     public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
         http
-                .authorizeHttpRequests(authorize -> authorize
-                        .requestMatchers("/auth/**")
-                        .permitAll()
-                        .anyRequest()
-                        .authenticated()
-                )
                 .csrf(AbstractHttpConfigurer::disable)
+                .authorizeHttpRequests(authorize -> authorize
+                        .requestMatchers("/api/v1/auth/**").permitAll()
+                        .requestMatchers("/endpoint", "/admin/**").hasRole("ADMIN")
+                        .anyRequest().authenticated()
+                )
                 .sessionManagement(session -> session
                         .sessionCreationPolicy(SessionCreationPolicy.STATELESS))
                 .authenticationProvider(authenticationProvider)
@@ -52,9 +50,13 @@ public class SecurityConfig {
     CorsConfigurationSource corsConfigurationSource() {
         CorsConfiguration configuration = new CorsConfiguration();
 
-        configuration.setAllowedOrigins(List.of("http://localhost:8005"));
-        configuration.setAllowedMethods(List.of("GET", "POST"));
-        configuration.setAllowedHeaders(List.of("Authorization", "Content-Type"));
+//        configuration.setAllowedOrigins(List.of("http://localhost:8005"));
+//        configuration.setAllowedMethods(List.of("GET", "POST"));
+//        configuration.setAllowedHeaders(List.of("Authorization", "Content-Type"));
+        configuration.setAllowedOriginPatterns(List.of("*"));
+        configuration.setAllowedMethods(List.of("GET", "POST", "PUT", "DELETE", "OPTIONS"));
+        configuration.setAllowedHeaders(List.of("*"));
+        configuration.setAllowCredentials(true);
 
         UrlBasedCorsConfigurationSource source = new UrlBasedCorsConfigurationSource();
 
