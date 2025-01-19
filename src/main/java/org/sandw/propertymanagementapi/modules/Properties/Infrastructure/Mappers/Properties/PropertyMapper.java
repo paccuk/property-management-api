@@ -9,12 +9,12 @@ public class PropertyMapper {
         return Property.createNew(
                 new PropertyId(propertyDto.id()),
                 new OwnerId(propertyDto.ownerId()),
-                propertyDto.createdDate(),
                 propertyDto.name(),
                 Location.of(propertyDto.locationAddress(), propertyDto.locationCity(), propertyDto.locationPostalCode()),
                 PropertyType.of(propertyDto.type()),
                 PropertyStatus.of(propertyDto.status()),
-                RentalPlacesLimit.of(propertyDto.rentalLimit())
+                RentalPlacesLimit.of(propertyDto.rentalLimit()),
+                propertyDto.createdDate()
         );
     }
 

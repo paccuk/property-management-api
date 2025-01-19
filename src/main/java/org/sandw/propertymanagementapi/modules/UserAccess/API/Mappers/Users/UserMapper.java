@@ -1,11 +1,11 @@
 package org.sandw.propertymanagementapi.modules.UserAccess.API.Mappers.Users;
 
-import org.sandw.propertymanagementapi.modules.UserAccess.API.DTOs.User.CreateUserRequest;
+import org.sandw.propertymanagementapi.modules.UserAccess.API.DTOs.User.UserRequest;
 import org.sandw.propertymanagementapi.modules.UserAccess.API.DTOs.User.UserResponse;
-import org.sandw.propertymanagementapi.modules.UserAccess.Domain.Users.User;
+import org.sandw.propertymanagementapi.modules.UserAccess.Domain.User.User;
 
 public class UserMapper {
-    public static User toDomain(CreateUserRequest createUserRequest) {
+    public static User toDomain(UserRequest createUserRequest) {
         return User.createNew(
                 createUserRequest.firstName(),
                 createUserRequest.lastName(),

@@ -1,6 +1,6 @@
 package org.sandw.propertymanagementapi.modules.UserAccess.API.DTOs.User;
 
-public record CreateUserRequest(
+public record UserRequest(
         String firstName,
         String lastName,
         String email,

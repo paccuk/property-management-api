@@ -37,31 +37,30 @@ public class AuthUserRepositoryImpl implements AuthUserRepository {
         return authUser;
     }
 
-//    @Override
-//    public Optional<AuthUser> findByEmail(String email) {
-//        String query = "SELECT * FROM auth_user WHERE email = ?";
-//
-//        var authUserDto = Optional.ofNullable(
-//                jdbcTemplate.queryForObject(query, new AuthUserRowMapper(), email)
-//        );
-//
-//        return authUserDto.map(AuthUserMapper::toDomain);
-//    }
-
     @Override
     public Optional<AuthUser> findByEmail(String email) {
         String query = "SELECT * FROM auth_user WHERE email = ?";
 
-        try {
-            var authUserDto = Optional.ofNullable(
-                    jdbcTemplate.queryForObject(query, new AuthUserRowMapper(), email)
-            );
-            return authUserDto.map(AuthUserMapper::toDomain);
-        } catch (EmptyResultDataAccessException e) {
-            return Optional.empty();
-        }
+        var authUserDto = Optional.ofNullable(
+                jdbcTemplate.queryForObject(query, new AuthUserRowMapper(), email)
+        );
 
+        return authUserDto.map(AuthUserMapper::toDomain);
     }
+
+//    @Override
+//    public Optional<AuthUser> findByEmail(String email) {
+//        String query = "SELECT * FROM auth_user WHERE email = ?";
+//
+//        try {
+//            var authUserDto = Optional.ofNullable(
+//                    jdbcTemplate.queryForObject(query, new AuthUserRowMapper(), email)
+//            );
+//            return authUserDto.map(AuthUserMapper::toDomain);
+//        } catch (EmptyResultDataAccessException e) {
+//            return Optional.empty();
+//        }
+//    }
 
     @Override
     public boolean existsByEmail(String email) {

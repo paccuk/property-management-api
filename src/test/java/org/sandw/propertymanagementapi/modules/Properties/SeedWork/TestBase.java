@@ -7,7 +7,7 @@
 //import org.sandw.propertymanagementapi.buildingblocks.Domain.BusinessRuleValidationException;
 //import org.sandw.propertymanagementapi.buildingblocks.Domain.DomainEvent;
 //import org.sandw.propertymanagementapi.buildingblocks.Domain.Entity;
-//import org.sandw.propertymanagementapi.modules.Properties.Domain.SharedKernel.SystemClock;
+//import org.sandw.propertymanagementapi.modules.shared.SystemClock.SystemClock;
 //
 //import java.util.List;
 //

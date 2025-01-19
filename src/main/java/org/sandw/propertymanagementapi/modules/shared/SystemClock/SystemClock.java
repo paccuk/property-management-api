@@ -1,4 +1,4 @@
-package org.sandw.propertymanagementapi.modules.Properties.Domain.SharedKernel;
+package org.sandw.propertymanagementapi.modules.shared.SystemClock;
 
 import java.time.LocalDateTime;
 

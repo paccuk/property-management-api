@@ -1,13 +1,15 @@
 package org.sandw.propertymanagementapi.modules.Properties.Domain.Properties.Events;
 
+import lombok.Getter;
 import org.sandw.propertymanagementapi.buildingblocks.Domain.DomainEventBase;
 import org.sandw.propertymanagementapi.modules.Properties.Domain.Properties.ValueObjects.OwnerId;
 import org.sandw.propertymanagementapi.modules.Properties.Domain.Properties.ValueObjects.PropertyId;
 
+@Getter
 public class PropertyCreatedDomainEvent extends DomainEventBase {
 
-    public final PropertyId propertyId;
-    public final OwnerId ownerId;
+    private final PropertyId propertyId;
+    protected final OwnerId ownerId;
 
     public PropertyCreatedDomainEvent(PropertyId propertyId, OwnerId ownerId) {
         this.propertyId = propertyId;

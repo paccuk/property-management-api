@@ -1,7 +1,7 @@
 package org.sandw.propertymanagementapi.modules.UserAccess.Infrastructure.Mappers.Users;
 
-import org.sandw.propertymanagementapi.modules.UserAccess.Domain.Users.User;
-import org.sandw.propertymanagementapi.modules.UserAccess.Domain.Users.ValueObjects.UserId;
+import org.sandw.propertymanagementapi.modules.UserAccess.Domain.User.User;
+import org.sandw.propertymanagementapi.modules.UserAccess.Domain.User.ValueObjects.UserId;
 import org.sandw.propertymanagementapi.modules.UserAccess.Infrastructure.DTOs.Users.UserDto;
 
 public class UserMapper {

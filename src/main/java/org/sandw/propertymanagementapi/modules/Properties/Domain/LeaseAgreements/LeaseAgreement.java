@@ -3,10 +3,9 @@ package org.sandw.propertymanagementapi.modules.Properties.Domain.LeaseAgreement
 import lombok.Getter;
 import org.sandw.propertymanagementapi.buildingblocks.Domain.AggregateRoot;
 import org.sandw.propertymanagementapi.buildingblocks.Domain.Entity;
-import org.sandw.propertymanagementapi.modules.Properties.Domain.LeaseAgreements.Events.*;
 import org.sandw.propertymanagementapi.modules.Properties.Domain.LeaseAgreements.Rules.*;
 import org.sandw.propertymanagementapi.modules.Properties.Domain.LeaseAgreements.ValueObjects.*;
-import org.sandw.propertymanagementapi.modules.Properties.Domain.SharedKernel.SystemClock;
+import org.sandw.propertymanagementapi.modules.shared.SystemClock.SystemClock;
 
 import java.time.LocalDateTime;
 import java.util.UUID;

@@ -1,55 +1,64 @@
 package org.sandw.propertymanagementapi.modules.Properties.API.Controllers.Properties;
 
-import org.sandw.propertymanagementapi.buildingblocks.Application.EventPublisher.EventPublisher;
-import org.sandw.propertymanagementapi.modules.Properties.API.DTOs.Properties.PropertyDto;
-import org.sandw.propertymanagementapi.modules.Properties.API.Mappers.Properties.PropertyMapper;
-import org.sandw.propertymanagementapi.modules.Properties.Application.UseCases.Properties.CreatePropertyUseCase;
-import org.sandw.propertymanagementapi.modules.Properties.Application.UseCases.Properties.GetPropertyByIdUseCase;
-import org.sandw.propertymanagementapi.modules.Properties.Domain.Properties.Events.PropertyCreatedDomainEvent;
-import org.sandw.propertymanagementapi.modules.Properties.Domain.Properties.ValueObjects.PropertyId;
-import org.sandw.propertymanagementapi.modules.shared.Transactions.TransactionManager;
+import org.sandw.propertymanagementapi.modules.Properties.API.DTOs.Properties.CreatePropertyRequest;
+import org.sandw.propertymanagementapi.modules.Properties.API.DTOs.Properties.PropertyResponse;
+import org.sandw.propertymanagementapi.modules.Properties.API.DTOs.Properties.UpdatePropertyRequest;
+import org.sandw.propertymanagementapi.modules.Properties.Application.UseCases.Properties.*;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
-import java.util.UUID;
-
-
 @RestController
 @RequestMapping("/api/v1/property")
 public class PropertyController {
-
-    private final GetPropertyByIdUseCase getPropertyByIdUseCase;
     private final CreatePropertyUseCase createPropertyUseCase;
+    private final GetPropertyByIdUseCase getPropertyByIdUseCase;
+    private final GetPropertyByOwnerIdUseCase getPropertyByUserIdUseCase;
+    private final DeletePropertyByIdUseCase deletePropertyByIdUseCase;
+    private final UpdatePropertyByIdUseCase updatePropertyByIdUseCase;
 
-    private final TransactionManager transactionManager;
-    private final EventPublisher eventPublisher;
-
-
-    public PropertyController(GetPropertyByIdUseCase getPropertyByIdUseCase, CreatePropertyUseCase createPropertyUseCase, TransactionManager transactionManager, EventPublisher eventPublisher) {
-        this.getPropertyByIdUseCase = getPropertyByIdUseCase;
+    public PropertyController(
+            CreatePropertyUseCase createPropertyUseCase,
+            GetPropertyByIdUseCase getPropertyByIdUseCase,
+            GetPropertyByOwnerIdUseCase getPropertyByUserIdUseCase,
+            DeletePropertyByIdUseCase deletePropertyByIdUseCase,
+            UpdatePropertyByIdUseCase updatePropertyByIdUseCase
+    ) {
         this.createPropertyUseCase = createPropertyUseCase;
-        this.transactionManager = transactionManager;
-        this.eventPublisher = eventPublisher;
+        this.getPropertyByIdUseCase = getPropertyByIdUseCase;
+        this.getPropertyByUserIdUseCase = getPropertyByUserIdUseCase;
+        this.deletePropertyByIdUseCase = deletePropertyByIdUseCase;
+        this.updatePropertyByIdUseCase = updatePropertyByIdUseCase;
+    }
+
+
+    @PostMapping("/create")
+    public ResponseEntity<PropertyResponse> createProperty(@RequestBody CreatePropertyRequest propertyRequest) {
+        var createdProperty = createPropertyUseCase.execute(propertyRequest);
+        return ResponseEntity.status(HttpStatus.CREATED).body(createdProperty);
+    }
+
+    @PatchMapping("/{id}/update")
+    public ResponseEntity<PropertyResponse> updateProperty(@PathVariable String id, @RequestBody UpdatePropertyRequest propertyUpdateRequest) {
+        var updatedProperty = updatePropertyByIdUseCase.execute(id, propertyUpdateRequest);
+        return ResponseEntity.ok(updatedProperty);
+    }
+
+    @PostMapping("/{id}/delete")
+    public ResponseEntity<String> deleteProperty(@PathVariable String id) {
+        deletePropertyByIdUseCase.execute(id);
+        return ResponseEntity.ok("Deleted property with id " + id);
     }
 
     @GetMapping("/{id}")
-    public ResponseEntity<PropertyDto> getPropertyById(@PathVariable String id) { // TODO: Consider to change 'id' arg to DTO.
-//        var property = getPropertyByIdUseCase.execute(PropertyIdMapper.toDomain(id));
-        var property = getPropertyByIdUseCase.execute(new PropertyId(UUID.fromString(id)));
-
-        return transactionManager.doAfterCommitWithResult(() -> {
-            return ResponseEntity.ok(PropertyMapper.toDto(property));
-        });
+    public ResponseEntity<PropertyResponse> getPropertyById(@PathVariable String id) {
+        var property = getPropertyByIdUseCase.execute(id);
+        return ResponseEntity.ok(property);
     }
 
-    @PostMapping
-    public ResponseEntity<String> createProperty(@RequestBody PropertyDto propertyDto) {
-        var property = createPropertyUseCase.execute(PropertyMapper.toDomain(propertyDto));
-
-        return transactionManager.doAfterCommitWithResult(() -> {
-            eventPublisher.publish(new PropertyCreatedDomainEvent(property.getId(), property.getOwnerId()));
-            return ResponseEntity.status(HttpStatus.CREATED).body("Property created successfully"); // TODO: Consider to return domain object.
-        });
+    @GetMapping("/{owner-id}")
+    public ResponseEntity<PropertyResponse> getPropertyByUserId(@PathVariable("owner-id") String ownerid) {
+        var property = getPropertyByUserIdUseCase.execute(ownerid);
+        return ResponseEntity.ok(property);
     }
 }

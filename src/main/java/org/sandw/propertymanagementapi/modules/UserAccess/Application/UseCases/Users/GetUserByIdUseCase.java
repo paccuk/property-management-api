@@ -2,9 +2,8 @@ package org.sandw.propertymanagementapi.modules.UserAccess.Application.UseCases.
 
 import org.sandw.propertymanagementapi.modules.UserAccess.API.DTOs.User.UserResponse;
 import org.sandw.propertymanagementapi.modules.UserAccess.API.Mappers.Users.UserMapper;
-import org.sandw.propertymanagementapi.modules.UserAccess.Domain.Users.User;
-import org.sandw.propertymanagementapi.modules.UserAccess.Domain.Users.UserRepository;
-import org.sandw.propertymanagementapi.modules.UserAccess.Domain.Users.ValueObjects.UserId;
+import org.sandw.propertymanagementapi.modules.UserAccess.Domain.User.UserRepository;
+import org.sandw.propertymanagementapi.modules.UserAccess.Domain.User.ValueObjects.UserId;
 
 import java.util.UUID;
 

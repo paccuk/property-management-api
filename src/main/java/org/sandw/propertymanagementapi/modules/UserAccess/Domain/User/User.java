@@ -1,10 +1,10 @@
-package org.sandw.propertymanagementapi.modules.UserAccess.Domain.Users;
+package org.sandw.propertymanagementapi.modules.UserAccess.Domain.User;
 
 import lombok.Getter;
 import org.sandw.propertymanagementapi.buildingblocks.Domain.AggregateRoot;
 import org.sandw.propertymanagementapi.buildingblocks.Domain.Entity;
-import org.sandw.propertymanagementapi.modules.Properties.Domain.SharedKernel.SystemClock;
-import org.sandw.propertymanagementapi.modules.UserAccess.Domain.Users.ValueObjects.UserId;
+import org.sandw.propertymanagementapi.modules.shared.SystemClock.SystemClock;
+import org.sandw.propertymanagementapi.modules.UserAccess.Domain.User.ValueObjects.UserId;
 
 import java.time.LocalDateTime;
 import java.util.UUID;
@@ -13,11 +13,11 @@ import java.util.UUID;
 public class User extends Entity implements AggregateRoot {
     private final UserId id;
 
-    private final String firstName;
-    private final String lastName;
+    private String firstName;
+    private String lastName;
 
-    private final String email; // TODO: Consider to use value object for email.
-    private final String phone; // TODO: Consider to use value object for phone number.
+    private String email; // TODO: Consider to use value object for email.
+    private String phone; // TODO: Consider to use value object for phone number.
 
     private final LocalDateTime createdDate;
 
@@ -58,5 +58,21 @@ public class User extends Entity implements AggregateRoot {
                 phone,
                 createdDate
         );
+    }
+
+    public void updateFirstName(String firstName) {
+        this.firstName = firstName;
+    }
+
+    public void updateLastName(String lastName) {
+        this.lastName = lastName;
+    }
+
+    public void updateEmail(String email) {
+        this.email = email;
+    }
+
+    public void updatePhone(String phone) {
+        this.phone = phone;
     }
 }

@@ -4,6 +4,7 @@ import org.sandw.propertymanagementapi.modules.UserAccess.Infrastructure.JWT.Jwt
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.security.authentication.AuthenticationProvider;
+import org.springframework.security.config.annotation.method.configuration.EnableGlobalMethodSecurity;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.config.annotation.web.configurers.AbstractHttpConfigurer;
@@ -22,6 +23,19 @@ public class SecurityConfig {
     private final JwtAuthenticationFilter jwtAuthenticationFilter;
     private final AuthenticationProvider authenticationProvider;
 
+    public static final String[] AUTH_WHITELIST = {
+            "/api/v1/auth/**",
+    };
+
+    public static final String[] SWAGGER_WHITELIST = {
+            "/api/v1/swagger-ui/**",
+            "/api/v1/swagger-ui.html",
+            "/api/v1/api-docs/**",
+            "/api/v1/api-docs/swagger-ui/**",
+            "/api/v1/swagger-resources/**",
+            "/api/v1/swagger-resources",
+    };
+
     public SecurityConfig(
             JwtAuthenticationFilter jwtAuthenticationFilter, AuthenticationProvider authenticationProvider
     ) {
@@ -34,7 +48,9 @@ public class SecurityConfig {
         http
                 .csrf(AbstractHttpConfigurer::disable)
                 .authorizeHttpRequests(authorize -> authorize
-                        .requestMatchers("/api/v1/auth/**").permitAll()
+                        .requestMatchers("/**").permitAll()
+                        .requestMatchers(AUTH_WHITELIST).permitAll()
+                        .requestMatchers(SWAGGER_WHITELIST).permitAll()
                         .requestMatchers("/endpoint", "/admin/**").hasRole("ADMIN")
                         .anyRequest().authenticated()
                 )

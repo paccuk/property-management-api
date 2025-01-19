@@ -2,7 +2,7 @@ package org.sandw.propertymanagementapi.modules.UserAccess.Application.UseCases.
 
 import org.sandw.propertymanagementapi.modules.UserAccess.API.DTOs.User.UserResponse;
 import org.sandw.propertymanagementapi.modules.UserAccess.API.Mappers.Users.UserMapper;
-import org.sandw.propertymanagementapi.modules.UserAccess.Domain.Users.UserRepository;
+import org.sandw.propertymanagementapi.modules.UserAccess.Domain.User.UserRepository;
 
 public class GetUserByEmailUseCase {
     private final UserRepository userRepository;

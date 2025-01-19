@@ -1,4 +1,4 @@
-package org.sandw.propertymanagementapi.modules.UserAccess.Domain.Users.ValueObjects;
+package org.sandw.propertymanagementapi.modules.UserAccess.Domain.User.ValueObjects;
 
 import org.sandw.propertymanagementapi.buildingblocks.Domain.TypedIdValueBase;
 

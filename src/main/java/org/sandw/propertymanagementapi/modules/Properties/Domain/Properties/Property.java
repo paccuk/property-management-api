@@ -3,9 +3,8 @@ package org.sandw.propertymanagementapi.modules.Properties.Domain.Properties;
 import lombok.Getter;
 import org.sandw.propertymanagementapi.buildingblocks.Domain.AggregateRoot;
 import org.sandw.propertymanagementapi.buildingblocks.Domain.Entity;
-import org.sandw.propertymanagementapi.modules.Properties.Domain.Properties.Events.*;
 import org.sandw.propertymanagementapi.modules.Properties.Domain.Properties.ValueObjects.*;
-import org.sandw.propertymanagementapi.modules.Properties.Domain.SharedKernel.SystemClock;
+import org.sandw.propertymanagementapi.modules.shared.SystemClock.SystemClock;
 
 import java.time.LocalDateTime;
 import java.util.UUID;
@@ -23,57 +22,15 @@ public class Property extends Entity implements AggregateRoot {
 
     private final LocalDateTime createdDate;
 
-
-    public static Property createNew(
-            OwnerId ownerId,
-            String name,
-            Location location,
-            PropertyType propertyType,
-            RentalPlacesLimit rentalLimit
-    ) {
-        return new Property(
-                new PropertyId(UUID.randomUUID()),
-                ownerId,
-                SystemClock.now(),
-                name,
-                location,
-                propertyType,
-                PropertyStatus.Available,
-                rentalLimit
-        );
-    }
-
-    public static Property createNew(
-            PropertyId propertyId,
-            OwnerId ownerId,
-            LocalDateTime createdDate,
-            String name,
-            Location location,
-            PropertyType propertyType,
-            PropertyStatus propertyStatus,
-            RentalPlacesLimit rentalLimit
-    ) {
-        return new Property(
-                propertyId,
-                ownerId,
-                createdDate,
-                name,
-                location,
-                propertyType,
-                propertyStatus,
-                rentalLimit
-        );
-    }
-
     private Property(
             PropertyId propertyId,
             OwnerId ownerId,
-            LocalDateTime createdDate,
             String name,
             Location location,
             PropertyType propertyType,
             PropertyStatus propertyStatus,
-            RentalPlacesLimit rentalLimit
+            RentalPlacesLimit rentalLimit,
+            LocalDateTime createdDate
     ) {
         this.id = propertyId;
         this.ownerId = ownerId;
@@ -84,6 +41,49 @@ public class Property extends Entity implements AggregateRoot {
         this.rentalLimit = rentalLimit;
         this.createdDate = createdDate;
     }
+
+    public static Property createNew(
+            OwnerId ownerId,
+            String name,
+            Location location,
+            PropertyType propertyType,
+            PropertyStatus propertyStatus,
+            RentalPlacesLimit rentalLimit
+    ) {
+        return new Property(
+                new PropertyId(UUID.randomUUID()),
+                ownerId,
+                name,
+                location,
+                propertyType,
+                propertyStatus,
+                rentalLimit,
+                SystemClock.now()
+        );
+    }
+
+    public static Property createNew(
+            PropertyId propertyId,
+            OwnerId ownerId,
+            String name,
+            Location location,
+            PropertyType propertyType,
+            PropertyStatus propertyStatus,
+            RentalPlacesLimit rentalLimit,
+            LocalDateTime createdDate
+    ) {
+        return new Property(
+                propertyId,
+                ownerId,
+                name,
+                location,
+                propertyType,
+                propertyStatus,
+                rentalLimit,
+                createdDate
+        );
+    }
+
 
     public void updateName(String name) {
         this.name = name;

@@ -1,6 +1,7 @@
 package org.sandw.propertymanagementapi;
 
 import org.sandw.propertymanagementapi.buildingblocks.Application.EventPublisher.EventPublisher;
+import org.sandw.propertymanagementapi.modules.shared.Configurations.SwaggerConfig;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.context.ApplicationEventPublisher;

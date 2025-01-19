@@ -1,12 +1,11 @@
 package org.sandw.propertymanagementapi.modules.UserAccess.Application.UseCases.Users;
 
 import org.sandw.propertymanagementapi.buildingblocks.Application.EventPublisher.EventPublisher;
-import org.sandw.propertymanagementapi.modules.UserAccess.API.DTOs.User.CreateUserRequest;
+import org.sandw.propertymanagementapi.modules.UserAccess.API.DTOs.User.UserRequest;
 import org.sandw.propertymanagementapi.modules.UserAccess.API.DTOs.User.UserResponse;
 import org.sandw.propertymanagementapi.modules.UserAccess.API.Mappers.Users.UserMapper;
-import org.sandw.propertymanagementapi.modules.UserAccess.Domain.Users.Events.UserCreatedDomainEvent;
-import org.sandw.propertymanagementapi.modules.UserAccess.Domain.Users.User;
-import org.sandw.propertymanagementapi.modules.UserAccess.Domain.Users.UserRepository;
+import org.sandw.propertymanagementapi.modules.UserAccess.Domain.User.Events.UserCreatedDomainEvent;
+import org.sandw.propertymanagementapi.modules.UserAccess.Domain.User.UserRepository;
 import org.sandw.propertymanagementapi.modules.shared.Transactions.TransactionManager;
 
 public class CreateUserUseCase {
@@ -20,7 +19,7 @@ public class CreateUserUseCase {
         this.eventPublisher = eventPublisher;
     }
 
-    public UserResponse execute(CreateUserRequest createUserRequest) {
+    public UserResponse execute(UserRequest createUserRequest) {
         return transactionManager.doInTransactionWithResult(() -> {
 
             var user = UserMapper.toDomain(createUserRequest);

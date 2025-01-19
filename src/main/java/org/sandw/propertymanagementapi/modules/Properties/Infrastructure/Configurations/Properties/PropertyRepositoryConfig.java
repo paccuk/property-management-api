@@ -13,16 +13,14 @@ public class PropertyRepositoryConfig {
 
     private final JdbcTemplate jdbcTemplate;
     private final SimpleJdbcInsert simpleJdbcInsert;
-    private final TransactionManager transactionManager;
 
-    public PropertyRepositoryConfig(JdbcTemplate jdbcTemplate, SimpleJdbcInsert simpleJdbcInsert, TransactionManager transactionManager) {
+    public PropertyRepositoryConfig(JdbcTemplate jdbcTemplate, SimpleJdbcInsert simpleJdbcInsert) {
         this.jdbcTemplate = jdbcTemplate;
         this.simpleJdbcInsert = simpleJdbcInsert;
-        this.transactionManager = transactionManager;
     }
 
     @Bean
     public PropertyRepository propertyRepository() {
-        return new PropertyRepositoryImpl(jdbcTemplate, simpleJdbcInsert, transactionManager);
+        return new PropertyRepositoryImpl(jdbcTemplate, simpleJdbcInsert);
     }
 }

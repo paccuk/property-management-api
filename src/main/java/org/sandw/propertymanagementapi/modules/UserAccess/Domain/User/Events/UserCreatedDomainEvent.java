@@ -1,8 +1,8 @@
-package org.sandw.propertymanagementapi.modules.UserAccess.Domain.Users.Events;
+package org.sandw.propertymanagementapi.modules.UserAccess.Domain.User.Events;
 
 import lombok.Getter;
 import org.sandw.propertymanagementapi.buildingblocks.Domain.DomainEventBase;
-import org.sandw.propertymanagementapi.modules.UserAccess.Domain.Users.ValueObjects.UserId;
+import org.sandw.propertymanagementapi.modules.UserAccess.Domain.User.ValueObjects.UserId;
 
 @Getter
 public class UserCreatedDomainEvent extends DomainEventBase {
